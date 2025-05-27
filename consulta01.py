@@ -24,13 +24,16 @@ session = Session()
 
 
 
-#  Obtiene las entregas de estudiantes de cursos del departamento "Arte", mostrando el título de la tarea, nombre del estudiante, calificación obtenida, nombre del instructor y nombre del departamento,
-#  realizando múltiples joins para acceder a los datos que están relacionados en varias tablas estos serian Entrega , Tarea , Curso , Departamento e Instructor, y Estudiante
-resultado = session.query(
-    Tarea.titulo,Estudiante.nombre,Entrega.calificacion,Instructor.nombre,Departamento.nombre
-    ).join(Entrega.tarea).join(Tarea.curso).join(Curso.departamento).join(Curso.instructor).join(Entrega.estudiante).filter(Departamento.nombre == 'Arte').all()
+#Consultamos Entrega y con multiples joins Unimos las Tablas Entrega etc y vamos accediendo a cada columna especifica luego
+#filtramos por departamentos y recolectamos todos los objetos.
+resultado = session.query(Entrega).join(Entrega.tarea).join(Tarea.curso).join(Curso.departamento).join(Curso.instructor).join(Entrega.estudiante).filter(Departamento.nombre == 'Arte').all()
 
-#en el resultado vamos a obtener una  List[Row[Tuple[str, str, Any, str, str]]] una lista de filas de tuplas por cada
-#fila vamos a obtener cada valor de la tupla y solo lo interpolamos o formateamos la cadena mostrando el resultado
-for tarea, estudiante, calificacion, instructor, departamento in resultado:
-    print(f"nombre Tarea: {tarea}, Nombre Estudiante: {estudiante}, calificacion: {calificacion},Instructor: {instructor}, Departamento: {departamento}")
+# Mostramos la lista de Entega accediendo a cada uno de sus atributos o columnas:
+for entrega in resultado:
+    print(
+        entrega.tarea.titulo,
+        entrega.estudiante.nombre,
+        entrega.calificacion,
+        entrega.tarea.curso.instructor.nombre,
+        entrega.tarea.curso.departamento.nombre
+    )
