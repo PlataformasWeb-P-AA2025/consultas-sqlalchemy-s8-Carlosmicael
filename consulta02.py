@@ -28,7 +28,7 @@ session = Session()
 #  para obtener los cursos de ese departamento hace otro join con tarea a través de curso tareas
 #  para acceder a las tareas asignadas en esos cursos y después se une con Entrega mediante Tarea 
 # entregas para acceder a las entregas asociadas a esas tareas y finalmente filtra aquellas entregas con calificación menor o igual a 0.3
-resultado = session.query(Departamento).join(Departamento.cursos).join(Curso.tareas).join(Tarea.entregas).filter(Entrega.calificacion <= 0.3).all()
+resultado = session.query(Departamento).join(Curso).join(Tarea).join(Entrega).filter(Entrega.calificacion <= 0.3).all()
 
 # Mostramos la lista de DEpartamento accediendo a cada uno de sus atributos o columnas:
 for depa in resultado:
